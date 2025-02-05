@@ -1,2 +1,4 @@
-# aws-eks-hanson
-@CloudNet EKS Hands on
+# AWS EKS Hans On
+
+이 프로젝트는 AWS EKS 클러스터를 구성하기 위한 목적의 리포지토리입니다.  
+클러스터 생성의 경우 `eksctl`을 통해 구성을 수행하려고 합니다.
