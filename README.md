@@ -1,9 +1,27 @@
-# AWS EKS Hans On
+# AWS EKS Hands On
 
-> 💡 Start by configuring a simple EKS cluster via the AWS CLI, then later switch to managing it with Terraform.
+EKS 클러스터 환경 구성 후 Hands-On을 진행하기 위한 리포지토리 입니다.
 
-이 프로젝트는 CloudNet@ EKS 강의 내용을 기반으로 EKS 클러스터를 구성하기 위한 목적을 가진 리포지토리입니다. 클러스터의 경우 `eksctl`을 기반으로 구성해볼 예정입니다.
+## Hands On 목표
 
-## 참고 자료
+### 기본 클러스터 구성
 
-- [[EKS] CloudNet@와 함께하는 Amazon EKS 기본 강의](https://www.inflearn.com/course/amazon-eks-%EA%B8%B0%EB%B3%B8-%EA%B0%95%EC%9D%98/dashboard)
+- [ ]  eksctl EKS 클러스터 및 워커 노드 그룹 생성
+- [ ]  kubectl get nodes, get pods -A 로 정상 동작 확인
+
+### 네트워크 및 서비스
+
+- [ ]  Pod, Deployment, Service (ClusterIP, NodePort, LoadBalancer) 배포
+- [ ]  AWS Load Balancer Controller 설치 및 ALB 연동 확인
+- [ ]  Ingress 리소스를 통해 ALB로 외부 요청 라우팅 실습
+
+### 애플리케이션 배포
+
+- [ ]  샘플 애플리케이션(Nginx, Spring Boot) 배포
+- [ ]  Ingress Path 기반 라우팅 적용 (예: /app1, /app2)
+- [ ]  ConfigMap / Secret 관리 및 Pod 환경변수 주입
+
+### Helm 차트
+
+- [ ]  Helm 설치 및 helm repo add / helm install 실습
+- [ ]  Nginx Ingress Controller를 Helm으로 배포
