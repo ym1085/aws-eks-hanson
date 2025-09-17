@@ -3,8 +3,8 @@ kind: Ingress
 metadata:
   name: nginx-ingress
   annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing # 퍼블릭 ALB
-    alb.ingress.kubernetes.io/target-type: ip # Pod IP를 직접 타겟으로 등록
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
 spec:
   ingressClassName: alb
@@ -15,6 +15,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx-nodeport
+            name: nginx-clusterip
             port:
               number: 80
