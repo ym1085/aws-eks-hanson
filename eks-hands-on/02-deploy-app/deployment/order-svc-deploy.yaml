@@ -21,12 +21,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-api-service
+  name: order-service-api-svc
 spec:
   selector:
-    app: order-api-pod
+    app: order-service-api
   ports:
   - port: 8080
     targetPort: 8080
     protocol: TCP
-  type: CLusterIP
+  type: ClusterIP
