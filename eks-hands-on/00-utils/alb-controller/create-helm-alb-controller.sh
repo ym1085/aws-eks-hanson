@@ -1,4 +1,11 @@
 #!/bin/bash
+# docs: https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller
+
+# helm install aws-lb-controller eks/aws-load-balancer-controller
+# helm install aws-lb-controller https://aws.github.io/eks-charts/aws-load-balancer-controller
+helm repo add eks https://aws.github.io/eks-charts
+helm repo update
+sleep 10
 
 # AWS LoadBalancer Controller는 k8s 리소스를 기반으로 ALB/NLB를 자동 생성 및 관리 해주는 컨트롤러
 # upgrade --install: 설치되어 있으면 업그레이드, 없으면 설치 진행
@@ -16,7 +23,7 @@ helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-contro
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller
 
-sleep 60
+sleep 10
 echo
 
 kubectl -n kube-system rollout status deploy/aws-load-balancer-controller
