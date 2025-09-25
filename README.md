@@ -12,9 +12,8 @@
 - [x] Deployment 구성
 
 ## 2단계: 애플리케이션 배포
-- [ ] Deployment(Pod) + Ingress Path 기반 Nginx/Apache 라우팅 테스트 (`/app1`, `/app2`)
-- [ ] ConfigMap / Secret 관리 → Pod 환경변수 주입
-- [ ] Pod 환경변수 활용 → DB 연결, 외부 API Key 적용 확인
+- [x] Deployment(Pod) + Ingress Path 기반 Nginx/Apache 라우팅 테스트 (`/app1`, `/app2`)
+- [x] ConfigMap / Secret 관리 → Pod 환경변수 주입
 
 ## 3단계: 운영 레벨 실습
 - [ ] HPA (Horizontal Pod Autoscaler) → CPU 부하에 따라 Pod 자동 확장
