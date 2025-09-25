@@ -17,6 +17,11 @@ spec:
         image: <your-account-id>.dkr.ecr.ap-northeast-2.amazonaws.com/user-service:latest
         ports:
         - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: user-service-api-configmap
+        - secretRef:
+            name: user-service-api-secret
 ---
 apiVersion: v1
 kind: Service
