@@ -17,6 +17,11 @@ spec:
         image: <your-account-id>.dkr.ecr.ap-northeast-2.amazonaws.com/order-service:latest
         ports:
         - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: order-service-api-configmap
+        - secretRef:
+            name: order-service-api-secret
 ---
 apiVersion: v1
 kind: Service
