@@ -1,0 +1,3 @@
+resources:
+- dev-order-ns.yaml
+- dev-payment-ns.yaml

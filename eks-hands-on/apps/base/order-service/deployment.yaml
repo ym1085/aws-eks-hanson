@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLables:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+        component: backend
+        env: dev
+        team: order
+    spec:
+      containers:
+      - name: order-service-api
+        image: <your account>.dkr.ecr.ap-northeast-2.amazonaws.com/order-service:latest
+        ports:
+        - containerPort: 8080
+      # TODO: resource 부분 작성 필요

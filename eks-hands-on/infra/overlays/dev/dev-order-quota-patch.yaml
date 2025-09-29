@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: dev-order-quota
+  namespace: dev-order
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: "512Mi"
+    limits.cpu: "4"
+    limits.memory: "1Gi"
