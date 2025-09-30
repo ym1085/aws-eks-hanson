@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: namespace
+metadata:
+  name: dev-payment-ns
+  labels:
+    env: dev
+    project: ecommerce
+    team: payment-team
