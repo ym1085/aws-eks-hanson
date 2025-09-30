@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: Pod
-metadata:
-  name: dev-payment-nginx-pod
-  namespace: dev-payment-ns
-  labels:
