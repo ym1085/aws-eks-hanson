@@ -1,0 +1,59 @@
+# ------------------------------
+# VSCode / IDE
+# ------------------------------
+.vscode/
+.idea/
+*.code-workspace
+.history/
+
+# ------------------------------
+# OS 임시 파일
+# ------------------------------
+.DS_Store
+Thumbs.db
+
+# ------------------------------
+# Kubernetes
+# ------------------------------
+# kubeconfig, 인증서, 클러스터 접근 정보는 절대 저장소에 올리지 않음
+.kube/
+*.kubeconfig
+*.crt
+*.key
+
+# kubectl 출력물, 임시 manifest
+*.rendered.yaml
+*.generated.yaml
+*.backup.yaml
+
+# ------------------------------
+# Helm
+# ------------------------------
+charts/*/charts
+charts/*/tmpcharts
+charts/*/Chart.lock
+*.tgz
+
+# ------------------------------
+# Kustomize
+# ------------------------------
+*.build.yaml
+*.patch.yaml
+*.tmp
+
+# ------------------------------
+# Docker / Container
+# ------------------------------
+*.log
+*.out
+*.tmp
+*.pid
+.env          # 민감한 환경 변수 파일은 반드시 제외
+.env.local
+.env.*.local
+
+# ------------------------------
+# ArgoCD / GitOps
+# ------------------------------
+# Sync 시 생기는 캐시/상태 파일
+.argocd-source.yaml
