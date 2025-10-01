@@ -4,8 +4,11 @@ set -e
 echo "==================================="
 echo " Kubernetes in Docker (kind) Setup "
 echo "==================================="
+
+echo "Installation kind for k8s"
+brew install kubectl
+kubectl version --client=true -o yaml
 echo
 
-kind create cluster --config kind-config-nodeport.yaml
-kubectl cluster-info --context kind-kind
-kubectl get nodes
+brew install kind
+kind version
