@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # helm install order-dev ./order-service
+  # name : order-dev-order-service-deploy
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-{{ .Values.deployment.nameSuffix }}
+  labels:
+    env: {{ .Values.deployment.labels.env }}
+    project: {{ .Values.deployment.labels.project }}
+    team: {{ .Values.deployment.labels.team }}
+spec:
+  replicas: {{ .Values.deployment.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.labels.app }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.labels.app }}
+        env: {{ .Values.deployment.labels.env }}
+        project: {{ .Values.deployment.labels.project }}
+        team: {{ .Values.deployment.labels.team }}
+    spec:
+      containers:
+        {{- range .Values.deployment.containers }}
+        - name: {{ .name }}
+          image: {{ .image.repository }}:{{ .image.tag }}
+          imagePullPolicy: {{ .image.pullPolicy }}
+          {{- if .ports }}
+          ports:
+            {{- range .ports}}
+            - name: {{ .name }}
+              containerPort: {{ .containerPort }}
+            {{- end }}
+          {{- end }}
+          {{- if .resources }}
+          resources:
+            {{- if .resources.requests }}
+            requests:
+              cpu: {{ .resources.requests.cpu | quote }}
+              memory: {{ .resources.requests.memory | quote }}
+            {{- end }}
+            {{- if .resources.limits }}
+            limits:
+              cpu: {{ .resources.limits.cpu | quote }}
+              memory: {{ .resources.limits.memory | quote }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
