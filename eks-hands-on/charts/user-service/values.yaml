@@ -1,0 +1,49 @@
+######################################
+# Deployment Configuration
+######################################
+deployment:
+  nameSuffix: deploy
+  namespace: dev-user-ns
+  labels:
+    app: dev-user-service
+    env: dev
+    project: ecommerce
+    team: user-team
+  replicaCount: 2
+  containers:
+  - name: user-service-api
+    image:
+      repository: youngmin1085/user-service
+      tag: latest
+      pullPolicy: IfNotPresent
+    ports:
+    - name: http
+      containerPort: 8080
+    resources:
+      requests:
+        cpu: "0.25"
+        memory: "500Mi"
+      limits:
+        cpu: "0.5"
+        memory: "1Gi"
+    env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: dev
+
+######################################
+# Service Configuration
+######################################
+service:
+  nameSuffix: service
+  namespace: dev-user-ns
+  labels:
+    app: dev-user-service
+    env: dev
+    project: ecommerce
+    team: user-team
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
