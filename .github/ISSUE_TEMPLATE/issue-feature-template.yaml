@@ -7,7 +7,7 @@ body:
 - type: textarea
   id: todo
   attributes:
-    label: TODOs
+    label: TODO
     description: 기능 구현을 위한 주요 작업을 체크리스트로 작성하세요.
     placeholder: |
       - [ ] Helm Chart 생성
