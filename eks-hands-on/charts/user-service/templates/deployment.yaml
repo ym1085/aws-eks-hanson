@@ -12,7 +12,7 @@ spec:
   replicas: {{ .Values.deployment.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.deployment.labels.app}}
+      app: {{ .Values.deployment.labels.app }}
       env: {{ .Values.deployment.labels.env }}
       project: {{ .Values.deployment.labels.project }}
       team: {{ .Values.deployment.labels.team }}

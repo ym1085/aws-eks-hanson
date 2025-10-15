@@ -1,0 +1,40 @@
+{{- if .Values.deployment.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  namespace: {{ .Values.app.namespace }}
+  labels:
+    {{- toYaml .Values.app.labels | nindent 4 }}
+spec:
+  replicas: {{ .Values.deployment.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.labels.app }}
+      env: {{ .Values.app.labels.env }}
+      project: {{ .Values.app.labels.project }}
+      team: {{ .Values.app.labels.team }}
+  template:
+    metadata:
+      labels:
+        {{- toYaml .Values.app.labels | nindent 8 }}
+    spec:
+      containers:
+        {{- range .Values.deployment.containers }}
+        - name: {{ .name }}
+          image: {{ .image }}:{{ .tag }}
+          ports:
+            {{- range .ports }}
+            - name: {{ .name }}
+              containerPort: {{ .containerPort }}
+              protocol: {{ .protocol | default "TCP" }}
+            {{- end }}
+          resources:
+            requests:
+              cpu: {{ .resources.requests.cpu }}
+              memory: {{ .resources.requests.memory }}
+            limits:
+              cpu: {{ .resources.limits.cpu }}
+              memory: {{ .resources.limits.memory }}
+        {{- end }}
+{{- end }}
