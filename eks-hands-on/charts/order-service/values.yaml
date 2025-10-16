@@ -29,7 +29,7 @@ deployment:
         memory: "512Mi"
       limits:
         cpu: "0.5"
-        memory: "1.0"
+        memory: "1Gi"
 
 ######################################
 # Service Configuration
@@ -37,7 +37,7 @@ deployment:
 service:
   enabled: true
   ports:
-  - name: http 
+  - name: http
     port: 8080
     targetPort: 8080
     protocol: TCP
