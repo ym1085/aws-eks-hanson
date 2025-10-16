@@ -1,59 +1,55 @@
+{{- if .Values.deployment.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-{{ .Values.deployment.nameSuffix }}
-  namespace: {{ .Values.deployment.namespace }}
+  # Release Name: dev-order-service
+  name: {{ .Release.Name }}-deploy
+  namespace: {{ .Values.app.namespace }}
   labels:
-    env: {{ .Values.deployment.labels.env }}
-    project: {{ .Values.deployment.labels.project }}
-    team: {{ .Values.deployment.labels.team }}
-    release: {{ .Release.Name }}
+    {{- toYaml .Values.app.labels | nindent 4 }}
 spec:
   replicas: {{ .Values.deployment.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.deployment.labels.app }}
-      env: {{ .Values.deployment.labels.env }}
-      project: {{ .Values.deployment.labels.project }}
-      team: {{ .Values.deployment.labels.team }}
-      release: {{ .Release.Name }}
+      app: {{ .Values.app.labels.app }}
+      env: {{ .Values.app.labels.env }}
+      project: {{ .Values.app.labels.project }}
+      team: {{ .Values.app.labels.team }}
   template:
     metadata:
-      name: {{ .Values.deployment.labels.app }}
       labels:
-        app: {{ .Values.deployment.labels.app }}
-        env: {{ .Values.deployment.labels.env }}
-        project: {{ .Values.deployment.labels.project }}
-        team: {{ .Values.deployment.labels.team }}
-        release: {{ .Release.Name }}
+        {{- toYaml .Values.app.labels | nindent 8 }}
     spec:
       containers:
         {{- range .Values.deployment.containers }}
         - name: {{ .name }}
-          image: {{ .image.repository }}:{{ .image.tag }}
-          imagePullPolicy: {{ .image.pullPolicy }}
+          image: {{ .image }}:{{ .tag | default "latest" }}
           ports:
             {{- range .ports }}
-            - name: {{ .name | default ""}}
+            - name: {{ .name }}
               containerPort: {{ .containerPort }}
+              protocol: {{ .protocol | default "TCP" }}
             {{- end }}
+          {{- if .resources }}
           resources:
             {{- if .resources.requests }}
             requests:
               {{- if .resources.requests.cpu }}
-              cpu: {{ .resources.requests.cpu | quote }}
+              cpu: {{ .resources.requests.cpu }}
               {{- end }}
-              {{- if .resources.requests.memory }}
-              memory: {{ .resources.requests.memory | quote }}
+              {{- if .resources.requests.memory}}
+              memory: {{ .resources.requests.memory }}
               {{- end }}
             {{- end }}
             {{- if .resources.limits }}
             limits:
               {{- if .resources.limits.cpu }}
-              cpu: {{ .resources.limits.cpu | quote }}
+              cpu: {{ .resources.limits.cpu }}
               {{- end }}
               {{- if .resources.limits.memory }}
-              memory: {{ .resources.limits.memory | quote }}
+              memory: {{ .resources.limits.memory }}
               {{- end }}
             {{- end }}
+          {{- end }}
         {{- end }}
+{{- end }}

@@ -1,46 +1,41 @@
 ######################################
-# Deployment Configuration
+# 공통 메타 Configuration
 ######################################
-deployment:
-  nameSuffix: deploy
-  namespace: dev-order-ns
+app:
+  namespace: dev-order-ns # TODO: values-dev.yaml 환경 분리 필요
   labels:
-    app: dev-order-pod
+    app: order-service
     env: dev
     project: ecommerce
     team: order-team
+
+######################################
+# Deployment Configuration
+######################################
+deployment:
+  enabled: true
   replicaCount: 2
   containers:
-  - name: dev-order-service-api
-    image:
-      repository: youngmin1085/order-service
-      tag: latest
-      pullPolicy: IfNotPresent
+  - name: order-service-api
+    image: youngmin1085/order-service
+    tag: latest
     ports:
     - name: http
       containerPort: 8080
+      protocol: TCP
     resources:
       requests:
         cpu: "0.25"
-        memory: "500Mi"
+        memory: "512Mi"
       limits:
         cpu: "0.5"
         memory: "1Gi"
-    env:
-    - name: SPRING_PROFILES_ACTIVE
-      value: dev
 
 ######################################
 # Service Configuration
 ######################################
 service:
-  nameSuffix: svc
-  namespace: dev-order-ns
-  labels:
-    app: dev-order-pod
-    env: dev
-    project: ecommerce
-    team: order-team
+  enabled: true
   ports:
   - name: http
     port: 8080

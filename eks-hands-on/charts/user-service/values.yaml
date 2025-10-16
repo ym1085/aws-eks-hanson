@@ -1,46 +1,41 @@
 ######################################
-# Deployment Configuration
+# 공통 메타 Configuration
 ######################################
-deployment:
-  nameSuffix: deploy
-  namespace: dev-user-ns
+app:
+  namespace: dev-user-ns # TODO: values-dev.yaml 환경 분리 필요
   labels:
-    app: dev-user-service
+    app: user-service
     env: dev
     project: ecommerce
     team: user-team
+
+######################################
+# Deployment Configuration
+######################################
+deployment:
+  enabled: true
   replicaCount: 2
   containers:
-  - name: user-service-api
-    image:
-      repository: youngmin1085/user-service
-      tag: latest
-      pullPolicy: IfNotPresent
+  - name: dev-user-api
+    image: youngmin1085/user-service
+    tag: latest
     ports:
     - name: http
       containerPort: 8080
+      protocol: TCP
     resources:
       requests:
         cpu: "0.25"
-        memory: "500Mi"
+        memory: "512Mi"
       limits:
         cpu: "0.5"
         memory: "1Gi"
-    env:
-    - name: SPRING_PROFILES_ACTIVE
-      value: dev
 
 ######################################
 # Service Configuration
 ######################################
 service:
-  nameSuffix: service
-  namespace: dev-user-ns
-  labels:
-    app: dev-user-service
-    env: dev
-    project: ecommerce
-    team: user-team
+  enabled: true
   ports:
   - name: http
     port: 8080

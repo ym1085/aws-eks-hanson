@@ -1,28 +1,23 @@
+{{- if .Values.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-{{ .Values.service.nameSuffix }}
-  namespace: {{ .Values.service.namespace }}
+  name: {{ .Release.Name }}-svc
+  namespace: {{ .Values.app.namespace }}
   labels:
-    env: {{ .Values.service.labels.env }}
-    project: {{ .Values.service.labels.project }}
-    team: {{ .Values.service.labels.team }}
-    release: {{ .Release.Name }}
+    {{- toYaml .Values.app.labels | nindent 4 }}
 spec:
   selector:
-    app: {{ .Values.service.labels.app }}
-    env: {{ .Values.service.labels.env }}
-    project: {{ .Values.service.labels.project }}
-    team: {{ .Values.service.labels.team }}
-    release: {{ .Release.Name }}
+    app: {{ .Values.app.labels.app }}
   ports:
     {{- range .Values.service.ports }}
     - name: {{ .name }}
       port: {{ .port }}
       targetPort: {{ .targetPort }}
-      protocol: {{ .protocol | default "TCP" }}
-      {{- if .nodePort }}
-      nodePort: {{ .nodePort | default "" }}
+      {{- if and (eq $.Values.service.type "NodePort") .nodePort }}
+      nodePort: {{ .nodePort }}
       {{- end }}
+      protocol: {{ .protocol | default "TCP" }}
     {{- end }}
   type: {{ .Values.service.type | default "ClusterIP" }}
+{{- end }}
