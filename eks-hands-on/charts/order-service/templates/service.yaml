@@ -1,14 +1,23 @@
+{{- if .Values.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: dev-order-svc
-  namespace: dev-order-ns
+  name: {{ .Release.Name }}-svc
+  namespace: {{ .Values.app.namespace }}
   labels:
-    env: dev
-    project: ecommerce
-    team: order-team
-    release: {{ .Release.Name }}
+    {{- toYaml .Values.app.labels | nindent 4 }}
 spec:
   selector:
-    {{- range .Values.service.containers }}
-    app: {{}}
+    {{- toYaml .Values.app.labels | nindent 4 }}
+  ports:
+    {{- range .Values.service.ports }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      targetPort: {{ .targetPort }}
+      {{- if and (eq .Values.service.type "NodePort") .nodePort }}
+      nodePort: {{ .nodePort }}
+      {{- end }}
+      protocol: {{ .protocol | default "TCP" }}
+    {{- end }}
+  type: {{ .Values.service.type | default "ClusterIP" }}
+{{- end }}

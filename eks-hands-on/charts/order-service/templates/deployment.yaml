@@ -2,7 +2,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.deployment.name }}
+  # Release Name: dev-order-service
+  name: {{ .Release.Name }}-deploy
   namespace: {{ .Values.app.namespace }}
   labels:
     {{- toYaml .Values.app.labels | nindent 4 }}
@@ -22,19 +23,33 @@ spec:
       containers:
         {{- range .Values.deployment.containers }}
         - name: {{ .name }}
-          image: {{ .image }}:{{ .tag }}
+          image: {{ .image }}:{{ .tag | default "latest" }}
           ports:
             {{- range .ports }}
             - name: {{ .name }}
               containerPort: {{ .containerPort }}
               protocol: {{ .protocol | default "TCP" }}
             {{- end }}
+          {{- if .resources }}
           resources:
+            {{- if .resources.requests }}
             requests:
+              {{- if .resources.requests.cpu }}
               cpu: {{ .resources.requests.cpu }}
+              {{- end }}
+              {{- if .resources.requests.memory}}
               memory: {{ .resources.requests.memory }}
+              {{- end }}
+            {{- end }}
+            {{- if .resources.limits }}
             limits:
+              {{- if .resources.limits.cpu }}
               cpu: {{ .resources.limits.cpu }}
+              {{- end }}
+              {{- if .resources.limits.memory }}
               memory: {{ .resources.limits.memory }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
         {{- end }}
 {{- end }}

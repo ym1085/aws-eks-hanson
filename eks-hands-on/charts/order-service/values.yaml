@@ -2,7 +2,7 @@
 # 공통 메타 Configuration
 ######################################
 app:
-  namespace: dev-order-ns
+  namespace: dev-order-ns # TODO: values-dev.yaml 환경 분리 필요
   labels:
     app: order-service
     env: dev
@@ -34,3 +34,11 @@ deployment:
 ######################################
 # Service Configuration
 ######################################
+service:
+  enabled: true
+  ports:
+  - name: http 
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
