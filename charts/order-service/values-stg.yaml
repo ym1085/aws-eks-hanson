@@ -1,0 +1,40 @@
+######################################
+# 공통 메타 Configuration
+######################################
+app:
+  labels:
+    env: stg
+
+######################################
+# Deployment Config
+######################################
+deployment:
+  enabled: true
+  replicaCount: 3
+  containers:
+  - name: order-service-api
+    image: youngmin1085/order-service
+    tag: v1.0.0
+    ports:
+    - name: http
+      containerPort: 8082
+      protocol: TCP
+    resources:
+      requests:
+        cpu: "1"
+        memory: "1Gi"
+      limits:
+        cpu: "1.5"
+        memory: "2Gi"
+
+######################################
+# Service Config
+######################################
+service:
+  enabled: true
+  ports:
+  - name: http
+    port: 8082
+    targetPort: 8082
+    protocol: TCP
+  type: ClusterIP
