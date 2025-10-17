@@ -1,0 +1,43 @@
+######################################
+# Common Config
+######################################
+app:
+  labels:
+    app: order-service
+    env: local
+    project: ecommerce
+    team: order-team
+
+######################################
+# Deployment Config
+######################################
+deployment:
+  enabled: true
+  replicaCount: 2
+  containers:
+  - name: order-service-api
+    image: youngmin1085/order-service
+    tag: latest
+    ports:
+    - name: http
+      containerPort: 8080
+      protocol: TCP
+    resources:
+      requests:
+        cpu: "0.25"
+        memory: "512Mi"
+      limits:
+        cpu: "0.5"
+        memory: "1Gi"
+
+######################################
+# Service Config
+######################################
+service:
+  enabled: true
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
