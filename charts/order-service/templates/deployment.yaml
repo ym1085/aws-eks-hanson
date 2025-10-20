@@ -28,6 +28,15 @@ spec:
               containerPort: {{ .containerPort }}
               protocol: {{ .protocol | default "TCP" }}
             {{- end }}
+          {{- if .env }} 
+          env:
+            {{- range .env }}
+            {{- if and .name .value }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
           {{- if .resources }}
           resources:
             {{- if .resources.requests }}
