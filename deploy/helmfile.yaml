@@ -3,6 +3,8 @@ environments:
   stg: {}
   prod: {}
 
+---
+
 releases:
   - name: order-service
     namespace: "{{ .Environment.Name }}-order-ns"
@@ -15,5 +17,5 @@ releases:
     namespace: "{{ .Environment.Name }}-user-ns"
     chart: "../charts/user-service"
     values:
-      - ../charts/user-service/values.yaml
+      - "../charts/user-service/values.yaml"
       - "../charts/user-service/values-{{ .Environment.Name }}.yaml"

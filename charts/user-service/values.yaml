@@ -2,10 +2,9 @@
 # 공통 메타 Configuration
 ######################################
 app:
-  namespace: dev-user-ns # TODO: values-dev.yaml 환경 분리 필요
   labels:
     app: user-service
-    env: dev
+    env: local
     project: ecommerce
     team: user-team
 
@@ -16,7 +15,7 @@ deployment:
   enabled: true
   replicaCount: 2
   containers:
-  - name: dev-user-api
+  - name: user-service-api
     image: youngmin1085/user-service
     tag: latest
     ports:

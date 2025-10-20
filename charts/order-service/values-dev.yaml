@@ -14,11 +14,15 @@ deployment:
   containers:
   - name: order-service-api
     image: youngmin1085/order-service
-    tag: v1.0.0
+    tag: latest
+    imagePullPolicy: Always
     ports:
     - name: http
-      containerPort: 8081
+      containerPort: 8080
       protocol: TCP
+    env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: dev
     resources:
       requests:
         cpu: "0.5"
@@ -34,7 +38,7 @@ service:
   enabled: true
   ports:
   - name: http
-    port: 8081
-    targetPort: 8081
+    port: 8080
+    targetPort: 8080
     protocol: TCP
   type: ClusterIP
