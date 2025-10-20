@@ -21,12 +21,22 @@ spec:
         {{- range .Values.deployment.containers }}
         - name: {{ .name }}
           image: {{ .image }}:{{ .tag | default "latest" }}
+          imagePullPolicy: {{ .imagePullPolicy | default "Always" }}
           ports:
             {{- range .ports }}
             - name: {{ .name }}
               containerPort: {{ .containerPort }}
               protocol: {{ .protocol | default "TCP" }}
             {{- end }}
+          {{- if .env }} 
+          env:
+            {{- range .env }}
+            {{- if and .name .value }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
           {{- if .resources }}
           resources:
             {{- if .resources.requests }}

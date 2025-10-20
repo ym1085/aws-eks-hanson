@@ -3,42 +3,41 @@
 ######################################
 app:
   labels:
-    env: prod
+    env: dev
 
 ######################################
-# Deployment Config
+# Deployment Configuration
 ######################################
 deployment:
   enabled: true
   replicaCount: 3
   containers:
-  - name: order-service-api
-    image: youngmin1085/order-service
+  - name: user-service-api
+    image: youngmin1085/user-service
     tag: latest
-    imagePullPolicy: Always
     ports:
     - name: http
-      containerPort: 8443
+      containerPort: 8080
       protocol: TCP
     env:
     - name: SPRING_PROFILES_ACTIVE
       value: dev
     resources:
       requests:
-        cpu: "1"
+        cpu: "0.5"
         memory: "1Gi"
       limits:
-        cpu: "1.5"
-        memory: "2Gi"
+        cpu: "0.75"
+        memory: "1.5Gi"
 
 ######################################
-# Service Config
+# Service Configuration
 ######################################
 service:
   enabled: true
   ports:
   - name: http
-    port: 8443
-    targetPort: 8443
+    port: 8080
+    targetPort: 8080
     protocol: TCP
   type: ClusterIP

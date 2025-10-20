@@ -6,23 +6,22 @@ app:
     env: prod
 
 ######################################
-# Deployment Config
+# Deployment Configuration
 ######################################
 deployment:
   enabled: true
   replicaCount: 3
   containers:
-  - name: order-service-api
-    image: youngmin1085/order-service
+  - name: user-service-api
+    image: youngmin1085/user-service
     tag: latest
-    imagePullPolicy: Always
     ports:
     - name: http
       containerPort: 8443
       protocol: TCP
     env:
     - name: SPRING_PROFILES_ACTIVE
-      value: dev
+      value: prod
     resources:
       requests:
         cpu: "1"
@@ -32,7 +31,7 @@ deployment:
         memory: "2Gi"
 
 ######################################
-# Service Config
+# Service Configuration
 ######################################
 service:
   enabled: true
