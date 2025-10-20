@@ -21,6 +21,7 @@ spec:
         {{- range .Values.deployment.containers }}
         - name: {{ .name }}
           image: {{ .image }}:{{ .tag | default "latest" }}
+          imagePullPolicy: {{ .imagePullPolicy | default "Always" }}
           ports:
             {{- range .ports }}
             - name: {{ .name }}
