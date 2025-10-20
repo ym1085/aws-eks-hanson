@@ -3,32 +3,32 @@
 ######################################
 app:
   labels:
-    app: user-service
-    env: local
-    project: ecommerce
-    team: user-team
+    env: prod
 
 ######################################
 # Deployment Configuration
 ######################################
 deployment:
   enabled: true
-  replicaCount: 2
+  replicaCount: 3
   containers:
   - name: user-service-api
     image: youngmin1085/user-service
     tag: latest
     ports:
     - name: http
-      containerPort: 8080
+      containerPort: 8443
       protocol: TCP
+    env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: prod
     resources:
       requests:
-        cpu: "0.25"
-        memory: "512Mi"
-      limits:
-        cpu: "0.5"
+        cpu: "1"
         memory: "1Gi"
+      limits:
+        cpu: "1.5"
+        memory: "2Gi"
 
 ######################################
 # Service Configuration
@@ -37,7 +37,7 @@ service:
   enabled: true
   ports:
   - name: http
-    port: 8080
-    targetPort: 8080
+    port: 8443
+    targetPort: 8443
     protocol: TCP
   type: ClusterIP

@@ -2,27 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-deploy
-  namespace: {{ .Values.app.namespace }}
+  name: {{ .Values.app.labels.env }}-{{ .Release.Name }}-deploy
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- toYaml .Values.app.labels | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.deployment.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.app.labels.app }}
-      env: {{ .Values.app.labels.env }}
-      project: {{ .Values.app.labels.project }}
-      team: {{ .Values.app.labels.team }}
+      {{- include "app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- toYaml .Values.app.labels | nindent 8 }}
+        {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         {{- range .Values.deployment.containers }}
         - name: {{ .name }}
           image: {{ .image}}:{{ .tag }}
+          imagePullPolicy: {{ .imagePullPolicy | default "Always" }}
           ports:
             {{- range .ports }}
             - name: {{ .name }}
@@ -30,6 +28,15 @@ spec:
               protocol: {{ .protocol | default "TCP" | quote }}
             {{- end }}
           {{- if .resources }}
+          {{- if .env }}
+          env:
+            {{- range .env }}
+            {{- if and .name .value }}
+            - name: {{ .name }} 
+              value: {{ .value | quote }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
           resources:
             {{- if .resources.requests }}
             requests:
