@@ -42,3 +42,34 @@ service:
     targetPort: 8080
     protocol: TCP
   type: ClusterIP
+
+######################################
+# Ingress Config
+######################################
+ingress:
+  enabled: true
+  annotation:
+    backend-protocol: "HTTP"
+    proxy-connect-timeout: "10"
+    proxy-read-timeout: "60"
+    proxy-send-timeout: "60"
+    proxy-body-size: "8m"
+  ingressClassName: nginx-ingress-controller
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /api/v1/orders
+        pathType: Prefix
+        backend:
+          service:
+            name: order-service
+            ports:
+              number: 8080
+      - path: /api/v1/users
+        pathType: Prefix
+        backend:
+          service:
+            name: user-service
+            ports:
+              number: 8080

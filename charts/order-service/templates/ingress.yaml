@@ -1,0 +1,43 @@
+# https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/
+# https://kmaster.tistory.com/94#google_vignette
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.app.labels.env }}-{{ .Release.Name }}-ingress
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "app.commonLabels" | nindent 4 }}
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: {{ .Values.ingress.annotation.backend-protocol }}
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: {{ .Values.ingress.annotation.proxy-connect-timeout }}
+    nginx.ingress.kubernetes.io/proxy-read-timeout: {{ .Values.ingress.annotation.proxy-read-timeout }}
+    nginx.ingress.kubernetes.io/proxy-send-timeout: {{ .Values.ingress.annotation.proxy-send-timeout }}
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.annotation.proxy-body-size }}
+spec:
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  {{- if .Values.ingress.rules }}
+  rules:
+    {{- range .Values.ingress.rules }}
+    - {{- if .host }}
+      host: {{ .host }}
+      {{- end }}
+      http:
+        paths:
+        {{- range .http.paths }}
+        - path: {{ .path }}
+          pathType: {{ .pathType }}
+          backend:
+            service:
+              name: {{ .backend.service.name }}
+              ports:
+                number: {{ .backend.service.ports.number }}
+        - path: {{ .path }}
+          pathType: {{ .pathType }}
+          backend:
+            service:
+              name: {{ .backend.service.name }}
+              ports:
+                number: {{ .backend.service.ports.number }}
+        {{- end }}
+    {{- end }}
+  {{- end }}
