@@ -23,6 +23,9 @@ deployment:
     - name: http
       containerPort: 8080
       protocol: TCP
+    env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: local
     resources:
       requests:
         cpu: "0.25"
@@ -48,13 +51,8 @@ service:
 ######################################
 ingress:
   enabled: true
-  annotation:
-    backendProtocol: "HTTP"
-    proxyConnectTimeout: "10"
-    proxyReadTimeout: "60"
-    proxySendTimeout: "60"
-    proxyBodySize: "8m"
-  ingressClassName: nginx
+  annotation: {}
+  ingressClassName: "nginx"
   rules:
   - host: localhost
     http:
